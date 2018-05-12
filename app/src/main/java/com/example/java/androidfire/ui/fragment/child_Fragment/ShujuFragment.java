@@ -1,29 +1,56 @@
 package com.example.java.androidfire.ui.fragment.child_Fragment;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.java.androidfire.R;
+import com.example.java.androidfire.data.bean.TouTiao_Bean;
+import com.example.java.androidfire.presenter.contract.IContract;
+import com.example.java.androidfire.presenter.impl.IPresenter;
+import com.example.java.androidfire.ui.activity.ZhuActivity;
+import com.example.java.androidfire.ui.adapter.RecyAdapter;
+import com.example.java.androidfire.ui.weight.RxManager;
+import com.flyco.tablayout.CommonTabLayout;
+import com.google.gson.Gson;
+
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ShujuFragment.OnFragmentInteractionListener} interface
+ * {@link OnFragmentInteractionListener} interface
  * to handle interaction events.
  * Use the {@link ShujuFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ShujuFragment extends Fragment {
+public class ShujuFragment extends Fragment implements IContract.IView<IContract.IPresenter> {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    @BindView(R.id.recy)
+    RecyclerView recy;
+    Unbinder unbinder;
+    private static int tabLayoutHeight;
+    ValueAnimator valueAnimator;
+    private RxManager rxManager;
+    ObjectAnimator alpha;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -65,7 +92,13 @@ public class ShujuFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_shuju, container, false);
+
+        View inflate = inflater.inflate(R.layout.fragment_shuju, container, false);
+        unbinder = ButterKnife.bind(this, inflate);
+        new IPresenter(this);
+        iPresenter.Data();
+
+        return inflate;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -81,15 +114,96 @@ public class ShujuFragment extends Fragment {
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+//            throw new RuntimeException(context.toString()
+//                    + " must implement OnFragmentInteractionListener");
         }
     }
+
+    IContract.IPresenter iPresenter;
 
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void setPresenter(IContract.IPresenter iPresenter) {
+        this.iPresenter = iPresenter;
+    }
+
+    @Override
+    public void showData(final List<TouTiao_Bean.T1348647909107Bean> t1348647909107) {
+        Log.e("--===----", t1348647909107.toString());
+//        TouTiao_Bean touTiao_bean = new Gson().fromJson(t1348647909107, TouTiao_Bean.class);
+//        final List<TouTiao_Bean.T1348647909107Bean> t13486479091071 = touTiao_bean.getT1348647909107();
+//        final List<TouTiao_Bean.T1348647909107Bean> t13486479091071 = t1348647909107.getT1348647909107();
+        AppCompatActivity compatActivity = (AppCompatActivity) getActivity();
+        compatActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        recy.setLayoutManager(new LinearLayoutManager(getContext()));
+                        RecyAdapter recyAdapter = new RecyAdapter(R.layout.item, t1348647909107);
+                        recy.setAdapter(recyAdapter);
+                        rxManager = new RxManager();
+                       ZhuActivity.tab_layout.measure(0, 0);
+                        tabLayoutHeight = ZhuActivity.tab_layout.getMeasuredHeight();
+                        startAnimation();
+
+                    }
+                });
+
+
+    }
+    boolean a = true;
+
+    private void startAnimation() {
+        recy.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                final ViewGroup.LayoutParams layoutParams = ZhuActivity.tab_layout.getLayoutParams();
+                if (a) {
+                    valueAnimator = ValueAnimator.ofInt(tabLayoutHeight, 0);
+                    alpha = ObjectAnimator.ofFloat(ZhuActivity.tab_layout, "alpha", 1, 0);
+                    ZhuActivity.tab_layout.setVisibility(View.VISIBLE);
+                } else {
+                    valueAnimator = ValueAnimator.ofInt(0, tabLayoutHeight);
+                    alpha = ObjectAnimator.ofFloat(ZhuActivity.tab_layout, "alpha", 0, 1);
+                    valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                            layoutParams.height = (int) valueAnimator.getAnimatedValue();
+                            ZhuActivity.tab_layout.setLayoutParams(layoutParams);
+                        }
+                    });
+                    AnimatorSet animatorSet = new AnimatorSet();
+                    animatorSet.setDuration(500);
+                    animatorSet.playTogether(valueAnimator, alpha);
+                    animatorSet.start();
+                    ZhuActivity.tab_layout.setVisibility(View.GONE);
+
+                }
+
+
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy < -1) {
+                    a = true;
+                } else if(dy>1){
+                    a = false;
+                }
+            }
+        });
+
+    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
     /**

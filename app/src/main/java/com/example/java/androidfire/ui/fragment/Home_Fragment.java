@@ -3,19 +3,29 @@ package com.example.java.androidfire.ui.fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.java.androidfire.R;
+import com.example.java.androidfire.ui.fragment.child_Fragment.ShujuFragment;
 
 import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link Home_Fragment.OnFragmentInteractionListener} interface
+ * {@link OnFragmentInteractionListener} interface
  * to handle interaction events.
  * Use the {@link Home_Fragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -27,10 +37,18 @@ public class Home_Fragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
 
     private static final String ARG_PARAM2 = "param2";
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.tab)
+    TabLayout tab;
+    @BindView(R.id.vp)
+    ViewPager vp;
+    Unbinder unbinder;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
     private OnFragmentInteractionListener mListener;
+    private ArrayList<Fragment> fragments;
 
     public Home_Fragment() {
         // Required empty public constructor
@@ -68,14 +86,32 @@ public class Home_Fragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View inflate = inflater.inflate(R.layout.fragment_home_, container, false);
+        unbinder = ButterKnife.bind(this, inflate);
 
+
+        tab.setupWithViewPager(vp);
         Tab_Name_list.add("头条");
-        Tab_Name_list.add("娱乐");
-        Tab_Name_list.add("体育");
-        Tab_Name_list.add("军事");
-        Tab_Name_list.add("体育");
-        ArrayList<Fragment> fragments = new ArrayList<>();
+        tab.setTabMode(Tab_Name_list.size()<=4?TabLayout.MODE_FIXED:TabLayout.MODE_SCROLLABLE);
 
+        fragments = new ArrayList<>();
+        fragments.add(new ShujuFragment());
+        AppCompatActivity appCompatActivity = (AppCompatActivity) getActivity();
+        vp.setAdapter(new FragmentStatePagerAdapter(appCompatActivity.getSupportFragmentManager()) {
+            @Override
+            public int getCount() {
+                return fragments.size();
+            }
+
+            @Override
+            public Fragment getItem(int position) {
+                return fragments.get(position);
+            }
+
+            @Override
+            public CharSequence getPageTitle(int position) {
+                return Tab_Name_list.get(position);
+            }
+        });
         return inflate;
     }
 
@@ -101,6 +137,12 @@ public class Home_Fragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
     /**

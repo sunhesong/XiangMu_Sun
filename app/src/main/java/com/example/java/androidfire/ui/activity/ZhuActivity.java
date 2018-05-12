@@ -21,10 +21,10 @@ import butterknife.OnClick;
 public class ZhuActivity extends AppCompatActivity {
 
 
-    Care_Fragment care_fragment = null;
-    Girl_Fragment girl_fragment = null;
-    Home_Fragment home_fragment = null;
-    Video_Fragment video_fragment = null;
+    private Care_Fragment care_fragment = null;
+    private Girl_Fragment girl_fragment = null;
+    private Home_Fragment home_fragment = null;
+    private Video_Fragment video_fragment = null;
     @BindView(R.id.Shouye)
     RadioButton Shouye;
     @BindView(R.id.meinv)
@@ -33,9 +33,8 @@ public class ZhuActivity extends AppCompatActivity {
     RadioButton shipin;
     @BindView(R.id.guanzhu)
     RadioButton guanzhu;
-    @BindView(R.id.tab_layout)
-    CommonTabLayout tabLayout;
     private FragmentManager supportFragmentManager;
+    public static CommonTabLayout tab_layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +42,26 @@ public class ZhuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_zhu);
         ButterKnife.bind(this);
         initView();
+//        //透明状态栏
+//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//        //透明导航栏
+//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        FragmentTransaction fragmentTransaction = supportFragmentManager.beginTransaction();
+        if (home_fragment == null) {
+            home_fragment = new Home_Fragment();
+            fragmentTransaction.add(R.id.fl, home_fragment);
+        } else {
+            fragmentTransaction.show(home_fragment);
+        }
+        fragmentTransaction.commit();
+        Shouye.setChecked(true);
 
 
     }
 
     private void initView() {
         supportFragmentManager = getSupportFragmentManager();
+        tab_layout = (CommonTabLayout) findViewById(R.id.tab_layout);
     }
 
     @OnClick({R.id.Shouye, R.id.meinv, R.id.shipin, R.id.guanzhu})
