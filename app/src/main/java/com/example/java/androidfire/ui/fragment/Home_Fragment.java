@@ -1,6 +1,7 @@
 package com.example.java.androidfire.ui.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -12,8 +13,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.example.java.androidfire.R;
+import com.example.java.androidfire.ui.activity.AddActivity;
 import com.example.java.androidfire.ui.fragment.child_Fragment.ShujuFragment;
 
 import java.util.ArrayList;
@@ -31,11 +34,11 @@ import butterknife.Unbinder;
  * create an instance of this fragment.
  */
 public class Home_Fragment extends Fragment {
-    ArrayList<String> Tab_Name_list = new ArrayList<String>();
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
-
+    public static ArrayList<String> My_Pin = new ArrayList<>();
+    public static ArrayList<String> Gengduo_Pin = new ArrayList<>();
     private static final String ARG_PARAM2 = "param2";
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -44,6 +47,8 @@ public class Home_Fragment extends Fragment {
     @BindView(R.id.vp)
     ViewPager vp;
     Unbinder unbinder;
+    @BindView(R.id.add)
+    ImageView add;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -79,8 +84,50 @@ public class Home_Fragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-    }
 
+
+    }
+static {
+    My_Pin.add("头条");
+    My_Pin.add("体育");
+    My_Pin.add("军事");
+    My_Pin.add("科技");
+    My_Pin.add("财经");
+
+    Gengduo_Pin.add("彩票");
+    Gengduo_Pin.add("NBA");
+    Gengduo_Pin.add("教育");
+    Gengduo_Pin.add("CBA");
+    Gengduo_Pin.add("数码");
+    Gengduo_Pin.add("精选");
+
+    Gengduo_Pin.add("旅游");
+    Gengduo_Pin.add("游戏");
+    Gengduo_Pin.add("博客");
+
+    Gengduo_Pin.add("娱乐");
+    Gengduo_Pin.add("暴雪");
+    Gengduo_Pin.add("手机");
+    Gengduo_Pin.add("汽车");
+
+
+    Gengduo_Pin.add("论坛");
+    Gengduo_Pin.add("足球");
+    Gengduo_Pin.add("时尚");
+
+    Gengduo_Pin.add("移动");
+    Gengduo_Pin.add("情感");
+    Gengduo_Pin.add("消息");
+    Gengduo_Pin.add("亲子");
+
+    Gengduo_Pin.add("社会");
+    Gengduo_Pin.add("电影");
+    Gengduo_Pin.add("电台");
+    Gengduo_Pin.add("房产");
+
+    Gengduo_Pin.add("家居");
+    Gengduo_Pin.add("笑话");
+}
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -88,10 +135,15 @@ public class Home_Fragment extends Fragment {
         View inflate = inflater.inflate(R.layout.fragment_home_, container, false);
         unbinder = ButterKnife.bind(this, inflate);
 
-
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), AddActivity.class);
+                startActivity(intent);
+            }
+        });
         tab.setupWithViewPager(vp);
-        Tab_Name_list.add("头条");
-        tab.setTabMode(Tab_Name_list.size()<=4?TabLayout.MODE_FIXED:TabLayout.MODE_SCROLLABLE);
+        tab.setTabMode(My_Pin.size() <= 4 ? TabLayout.MODE_FIXED : TabLayout.MODE_SCROLLABLE);
 
         fragments = new ArrayList<>();
         fragments.add(new ShujuFragment());
@@ -109,7 +161,7 @@ public class Home_Fragment extends Fragment {
 
             @Override
             public CharSequence getPageTitle(int position) {
-                return Tab_Name_list.get(position);
+                return My_Pin.get(position);
             }
         });
         return inflate;
