@@ -18,4 +18,14 @@ public interface IContract {
     interface IView<IPresenter> extends BaseView<IPresenter> {
         void showData(List<TouTiao_Bean.T1348647909107Bean> t1348647909107);
     }
+
+
+    interface IPresenter_Video extends BasePresenter {
+        void Video_Data();
+    }
+
+    interface IView_Video<IPresenter_Video> extends BaseView<IPresenter_Video> {
+        void showData_Video(String t1348647909107);
+    }
+
 }

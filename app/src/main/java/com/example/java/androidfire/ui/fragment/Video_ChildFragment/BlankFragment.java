@@ -1,30 +1,34 @@
-package com.example.java.androidfire.ui.fragment;
+package com.example.java.androidfire.ui.fragment.Video_ChildFragment;
 
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.java.androidfire.R;
-import com.example.java.androidfire.ui.fragment.Video_ChildFragment.BlankFragment;
+import com.example.java.androidfire.data.bean.Video_Bean;
+import com.example.java.androidfire.presenter.contract.IContract;
+import com.example.java.androidfire.presenter.impl.IPresenter_Video;
+import com.example.java.androidfire.ui.adapter.VideoAdapter;
+import com.google.gson.Gson;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
  * {@link OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link Video_Fragment#newInstance} factory method to
+ * Use the {@link BlankFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Video_Fragment extends Fragment {
+public class BlankFragment extends Fragment implements IContract.IView_Video<IContract.IPresenter_Video> {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -35,12 +39,9 @@ public class Video_Fragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-    private TabLayout tab;
-    private ViewPager vp;
-    private ArrayList<Fragment> fragments;
-    private ArrayList<String> list;
+    private RecyclerView recy;
 
-    public Video_Fragment() {
+    public BlankFragment() {
         // Required empty public constructor
     }
 
@@ -50,11 +51,11 @@ public class Video_Fragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment Video_Fragment.
+     * @return A new instance of fragment BlankFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static Video_Fragment newInstance(String param1, String param2) {
-        Video_Fragment fragment = new Video_Fragment();
+    public static BlankFragment newInstance(String param1, String param2) {
+        BlankFragment fragment = new BlankFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -71,41 +72,19 @@ public class Video_Fragment extends Fragment {
         }
     }
 
+    IContract.IPresenter_Video iPresenter_video;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
-        View inflate = inflater.inflate(R.layout.fragment_video_, container, false);
+        View inflate = inflater.inflate(R.layout.fragment_blank, container, false);
         initView(inflate);
-
-        list = new ArrayList<>();
-        list.add("热点");
-        list.add("搞笑");
-        list.add("娱乐");
-        list.add("精品");
-
-        fragments = new ArrayList<>();
-        fragments.add(new BlankFragment());
-        fragments.add(new BlankFragment());
-        fragments.add(new BlankFragment());
-        fragments.add(new BlankFragment());
-tab.setupWithViewPager(vp);
-        vp.setAdapter(new FragmentStatePagerAdapter(getActivity().getSupportFragmentManager()) {
-            @Override
-            public Fragment getItem(int position) {
-                return fragments.get(position);
-            }
-
-            @Override
-            public int getCount() {
-                return fragments.size();
-            }
-
-            @Override
-            public CharSequence getPageTitle(int position) {
-                return list.get(position);
-            }
-        });
+        new IPresenter_Video(this);
+        iPresenter_video.Video_Data();
+//        recy.setAdapter();
         return inflate;
     }
 
@@ -134,8 +113,27 @@ tab.setupWithViewPager(vp);
     }
 
     private void initView(View inflate) {
-        tab = (TabLayout) inflate.findViewById(R.id.tab);
-        vp = (ViewPager) inflate.findViewById(R.id.vp);
+        recy = (RecyclerView) inflate.findViewById(R.id.recy);
+    }
+
+    @Override
+    public void setPresenter(IContract.IPresenter_Video iPresenter_video) {
+        this.iPresenter_video = iPresenter_video;
+    }
+
+    @Override
+    public void showData_Video(final String t1348647909107) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Log.e("-----",t1348647909107.toString());
+                Video_Bean video_bean = new Gson().fromJson(t1348647909107, Video_Bean.class);
+                List<Video_Bean.V9LG4E6VRBean> v9LG4E6VR = video_bean.getV9LG4E6VR();
+                VideoAdapter videoAdapter = new VideoAdapter(v9LG4E6VR, getContext());
+                recy.setLayoutManager(new LinearLayoutManager(getActivity()));
+                recy.setAdapter(videoAdapter);
+            }
+        });
     }
 
     /**

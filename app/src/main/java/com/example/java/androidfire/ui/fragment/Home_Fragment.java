@@ -1,5 +1,6 @@
 package com.example.java.androidfire.ui.fragment;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -10,13 +11,16 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toolbar;
 
 import com.example.java.androidfire.R;
 import com.example.java.androidfire.ui.activity.AddActivity;
+import com.example.java.androidfire.ui.adapter.Tab_Adapter;
 import com.example.java.androidfire.ui.fragment.child_Fragment.ShujuFragment;
 
 import java.util.ArrayList;
@@ -53,10 +57,20 @@ public class Home_Fragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private OnFragmentInteractionListener mListener;
-    private ArrayList<Fragment> fragments;
+    public static ArrayList<Fragment> fragments;
+    private Tab_Adapter tab_adapter;
 
     public Home_Fragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+
+        Log.e("--------", My_Pin.size()+"");
+        tab_adapter.notifyDataSetChanged();
     }
 
     /**
@@ -143,27 +157,20 @@ static {
             }
         });
         tab.setupWithViewPager(vp);
-        tab.setTabMode(My_Pin.size() <= 4 ? TabLayout.MODE_FIXED : TabLayout.MODE_SCROLLABLE);
+        Log.e("==",My_Pin.size()+"");
+        tab.setTabMode( TabLayout.MODE_SCROLLABLE);
 
         fragments = new ArrayList<>();
         fragments.add(new ShujuFragment());
+        fragments.add(new ShujuFragment());
+        fragments.add(new ShujuFragment());
+        fragments.add(new ShujuFragment());
+        fragments.add(new ShujuFragment());
+
+
         AppCompatActivity appCompatActivity = (AppCompatActivity) getActivity();
-        vp.setAdapter(new FragmentStatePagerAdapter(appCompatActivity.getSupportFragmentManager()) {
-            @Override
-            public int getCount() {
-                return fragments.size();
-            }
-
-            @Override
-            public Fragment getItem(int position) {
-                return fragments.get(position);
-            }
-
-            @Override
-            public CharSequence getPageTitle(int position) {
-                return My_Pin.get(position);
-            }
-        });
+        tab_adapter = new Tab_Adapter(appCompatActivity.getSupportFragmentManager(), fragments, My_Pin);
+        vp.setAdapter(tab_adapter);
         return inflate;
     }
 
@@ -190,13 +197,11 @@ static {
         super.onDetach();
         mListener = null;
     }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
     }
-
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -211,4 +216,6 @@ static {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+
 }

@@ -1,24 +1,27 @@
 package com.example.java.androidfire.ui.activity;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import com.example.java.androidfire.R;
 import com.example.java.androidfire.ui.fragment.Care_Fragment;
 import com.example.java.androidfire.ui.fragment.Girl_Fragment;
 import com.example.java.androidfire.ui.fragment.Home_Fragment;
 import com.example.java.androidfire.ui.fragment.Video_Fragment;
+import com.example.java.androidfire.ui.fragment.child_Fragment.ShujuFragment;
 import com.flyco.tablayout.CommonTabLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ZhuActivity extends AppCompatActivity {
+public class ZhuActivity extends AppCompatActivity implements View.OnClickListener {
 
 
     private Care_Fragment care_fragment = null;
@@ -35,6 +38,21 @@ public class ZhuActivity extends AppCompatActivity {
     RadioButton guanzhu;
     private FragmentManager supportFragmentManager;
     public static CommonTabLayout tab_layout;
+    public static FloatingActionButton fab;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        FragmentTransaction fragmentTransaction = supportFragmentManager.beginTransaction();
+        if (home_fragment == null) {
+            home_fragment = new Home_Fragment();
+            fragmentTransaction.add(R.id.fl, home_fragment);
+        } else {
+            fragmentTransaction.show(home_fragment);
+        }
+        fragmentTransaction.commit();
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +60,7 @@ public class ZhuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_zhu);
         ButterKnife.bind(this);
         initView();
+
 //        //透明状态栏
 //        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 //        //透明导航栏
@@ -62,6 +81,8 @@ public class ZhuActivity extends AppCompatActivity {
     private void initView() {
         supportFragmentManager = getSupportFragmentManager();
         tab_layout = (CommonTabLayout) findViewById(R.id.tab_layout);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(this);
     }
 
     @OnClick({R.id.Shouye, R.id.meinv, R.id.shipin, R.id.guanzhu})
@@ -114,5 +135,14 @@ public class ZhuActivity extends AppCompatActivity {
                 break;
         }
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.fab:
+
+                break;
+        }
     }
 }

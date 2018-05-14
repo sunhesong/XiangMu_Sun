@@ -13,4 +13,10 @@ public interface Model {
     interface CallBackListener{
         void requestData(List<TouTiao_Bean.T1348647909107Bean> t1348647909107);
     }
+
+
+    void showData_Video(CallBackListener_video callBackListener_video);
+    interface CallBackListener_video{
+        void requestData(String t1348647909107);
+    }
 }

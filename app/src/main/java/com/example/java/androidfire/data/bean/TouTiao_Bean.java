@@ -21,42 +21,43 @@ public class TouTiao_Bean {
     public static class T1348647909107Bean {
         /**
          * template : normal1
-         * skipID : 00AP0001|2293462
-         * lmodify : 2018-05-11 16:35:19
-         * postid : PHOT25VMM000100A
-         * source : 河南电视台都市报道
-         * title : 空姐打车遇害案:救援队打捞嫌犯尸体
-         * mtime : 2018-05-11 16:35:19
+         * skipID : 00AO0001|2293509
+         * lmodify : 2018-05-14 08:31:16
+         * postid : PHOT25VO5000100A
+         * source : 视觉中国
+         * title : 耶路撒冷美国新使馆开张 伊万卡出席
+         * mtime : 2018-05-14 08:31:16
          * hasImg : 1
          * topic_background : http://img2.cache.netease.com/m/newsapp/reading/cover1/C1348646712614.jpg
          * digest :
-         * photosetID : 00AP0001|2293462
+         * photosetID : 00AO0001|2293509
          * boardid : photoview_bbs
          * alias : Top News
          * hasAD : 1
-         * imgsrc : http://cms-bucket.nosdn.127.net/04e71226eb3244a9943913222f65359420180511162659.jpeg
-         * ptime : 2018-05-11 16:27:11
-         * daynum : 17662
+         * imgsrc : http://cms-bucket.nosdn.127.net/ed97a97766b64cf9b7d65460a379ac0020180514081259.jpeg
+         * ptime : 2018-05-14 08:13:42
+         * daynum : 17665
          * hasHead : 1
          * imgType : 1
          * order : 1
          * editor : []
-         * votecount : 3856
+         * votecount : 644
          * hasCover : false
-         * docid : 9IG74V5H00963VRO_DHHPBKN6bjjikeupdateDoc
+         * docid : 9IG74V5H00963VRO_DHOKA7AIbjguyingupdateDoc
          * tname : 头条
-         * priority : 356
-         * ads : [{"subtitle":"","skipType":"photoset","skipID":"00AP0001|2293455","tag":"photoset","title":"汶川地震亲历者:10年后仍未走出阴影","imgsrc":"bigimg","url":"00AP0001|2293455"},{"subtitle":"","skipType":"photoset","skipID":"00AO0001|2293445","tag":"photoset","title":"92岁马哈蒂尔宣誓就任大马新总理","imgsrc":"bigimg","url":"00AO0001|2293445"},{"subtitle":"","skipType":"photoset","skipID":"00AO0001|2293441","tag":"photoset","title":"夏威夷火山活动将加剧 熔岩\"一路狂奔\"","imgsrc":"bigimg","url":"00AO0001|2293441"},{"subtitle":"","skipType":"photoset","skipID":"00AP0001|2293440","tag":"photoset","title":"杨振宁翁帆新书发布 现场亲密贴耳交流","imgsrc":"bigimg","url":"00AP0001|2293440"},{"subtitle":"","skipType":"photoset","skipID":"00AP0001|2293439","tag":"photoset","title":"女子花745元网购电饭煲 收到俩砖头","imgsrc":"http://cms-bucket.nosdn.127.net/b1d3f9d7ed4443b19790ab649abe855f20180511032956.jpeg","url":"00AP0001|2293439"}]
+         * priority : 355
+         * ads : [{"subtitle":"","skipType":"photoset","skipID":"00AO0001|2293513","tag":"photoset","title":"夏威夷火山持续喷发 再现新裂缝","imgsrc":"bigimg","url":"00AO0001|2293513"},{"subtitle":"","skipType":"photoset","skipID":"00AO0001|2293509","tag":"photoset","title":"耶路撒冷美国新使馆开张 伊万卡出席","imgsrc":"bigimg","url":"00AO0001|2293509"},{"subtitle":"","skipType":"photoset","skipID":"00AP0001|2293508","tag":"photoset","title":"重庆\"五星级\"豪华公厕:有电视及WiFi","imgsrc":"bigimg","url":"00AP0001|2293508"},{"subtitle":"","skipType":"photoset","skipID":"00AO0001|2293506","tag":"photoset","title":"伊万卡抵以色列出席美使馆搬迁仪式","imgsrc":"bigimg","url":"00AO0001|2293506"},{"subtitle":"","skipType":"photoset","skipID":"00AP0001|2293505","tag":"photoset","title":"荔枝大比拼:一串\"妃子笑\"拍出9.9万","imgsrc":"bigimg","url":"00AP0001|2293505"}]
          * ename : androidnews
-         * replyCount : 4109
-         * imgsum : 6
+         * replyCount : 690
+         * imgsum : 4
          * hasIcon : false
          * skipType : photoset
          * cid : C1348646712614
-         * url_3w : http://news.163.com/18/0511/19/DHI43BD7000189FH.html
-         * url : http://3g.163.com/news/18/0511/19/DHI43BD7000189FH.html
-         * ltitle : 习近平主持召开全面深化改革委员会第二次会议
+         * url_3w : http://news.163.com/18/0513/13/DHMJM5FM000189FH.html
+         * url : http://3g.163.com/news/18/0513/13/DHMJM5FM000189FH.html
+         * ltitle : 习近平和母亲
          * subtitle :
+         * pixel : 1024*784
          */
 
         private String template;
@@ -94,6 +95,7 @@ public class TouTiao_Bean {
         private String url;
         private String ltitle;
         private String subtitle;
+        private String pixel;
         private List<?> editor;
         private List<AdsBean> ads;
 
@@ -377,6 +379,14 @@ public class TouTiao_Bean {
             this.subtitle = subtitle;
         }
 
+        public String getPixel() {
+            return pixel;
+        }
+
+        public void setPixel(String pixel) {
+            this.pixel = pixel;
+        }
+
         public List<?> getEditor() {
             return editor;
         }
@@ -397,11 +407,11 @@ public class TouTiao_Bean {
             /**
              * subtitle :
              * skipType : photoset
-             * skipID : 00AP0001|2293455
+             * skipID : 00AO0001|2293513
              * tag : photoset
-             * title : 汶川地震亲历者:10年后仍未走出阴影
+             * title : 夏威夷火山持续喷发 再现新裂缝
              * imgsrc : bigimg
-             * url : 00AP0001|2293455
+             * url : 00AO0001|2293513
              */
 
             private String subtitle;

@@ -57,13 +57,11 @@ public class ModelImpl implements Model {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("--------error----------",e.getMessage());
                     }
 
                     @Override
                     public void onNext(TouTiao_Bean touTiao_bean) {
                         List<TouTiao_Bean.T1348647909107Bean> t1348647909107 = touTiao_bean.getT1348647909107();
-                        Log.e("-----", touTiao_bean.toString());
                         callBackListener.requestData(t1348647909107);
                     }
                 });
@@ -87,5 +85,22 @@ public class ModelImpl implements Model {
 //                    }
 //                });
 
+    }
+
+    @Override
+    public void showData_Video(final CallBackListener_video callBackListener_video) {
+        new OkHttpClient.Builder().build().newCall(new Request.Builder().url("http://c.m.163.com/nc/video/list/V9LG4E6VR/n/0-10.html").build())
+                .enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        String string = response.body().string();
+                        callBackListener_video.requestData(string);
+                    }
+                });
     }
 }

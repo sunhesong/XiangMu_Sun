@@ -22,12 +22,9 @@ import com.example.java.androidfire.presenter.impl.IPresenter;
 import com.example.java.androidfire.ui.activity.ZhuActivity;
 import com.example.java.androidfire.ui.adapter.RecyAdapter;
 import com.example.java.androidfire.ui.weight.RxManager;
-import com.flyco.tablayout.CommonTabLayout;
-import com.google.gson.Gson;
 
 import java.util.List;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -44,8 +41,7 @@ public class ShujuFragment extends Fragment implements IContract.IView<IContract
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    @BindView(R.id.recy)
-    RecyclerView recy;
+    public static RecyclerView recy;
     Unbinder unbinder;
     private static int tabLayoutHeight;
     ValueAnimator valueAnimator;
@@ -97,7 +93,7 @@ public class ShujuFragment extends Fragment implements IContract.IView<IContract
         unbinder = ButterKnife.bind(this, inflate);
         new IPresenter(this);
         iPresenter.Data();
-
+        initView(inflate);
         return inflate;
     }
 
@@ -140,21 +136,23 @@ public class ShujuFragment extends Fragment implements IContract.IView<IContract
 //        final List<TouTiao_Bean.T1348647909107Bean> t13486479091071 = t1348647909107.getT1348647909107();
         AppCompatActivity compatActivity = (AppCompatActivity) getActivity();
         compatActivity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        recy.setLayoutManager(new LinearLayoutManager(getContext()));
-                        RecyAdapter recyAdapter = new RecyAdapter(R.layout.item, t1348647909107);
-                        recy.setAdapter(recyAdapter);
-                        rxManager = new RxManager();
-                       ZhuActivity.tab_layout.measure(0, 0);
-                        tabLayoutHeight = ZhuActivity.tab_layout.getMeasuredHeight();
-                        startAnimation();
+            @Override
+            public void run() {
+                recy.setLayoutManager(new LinearLayoutManager(getContext()));
+                RecyAdapter recyAdapter = new RecyAdapter(R.layout.item, t1348647909107);
+                recy.setAdapter(recyAdapter);
+                rxManager = new RxManager();
+                ZhuActivity.tab_layout.measure(0, 0);
+                tabLayoutHeight = ZhuActivity.tab_layout.getMeasuredHeight();
+                startAnimation();
 
-                    }
-                });
+
+            }
+        });
 
 
     }
+
     boolean a = true;
 
     private void startAnimation() {
@@ -193,17 +191,22 @@ public class ShujuFragment extends Fragment implements IContract.IView<IContract
                 super.onScrolled(recyclerView, dx, dy);
                 if (dy < -1) {
                     a = true;
-                } else if(dy>1){
+                } else if (dy > 1) {
                     a = false;
                 }
             }
         });
 
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    private void initView(View inflate) {
+        recy=inflate.findViewById(R.id.recy);
     }
 
     /**

@@ -16,6 +16,7 @@ import com.chad.library.adapter.base.listener.OnItemSwipeListener;
 import com.example.java.androidfire.R;
 import com.example.java.androidfire.ui.adapter.MyRecyclerADapter;
 import com.example.java.androidfire.ui.fragment.Home_Fragment;
+import com.example.java.androidfire.ui.fragment.child_Fragment.ShujuFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,8 +53,10 @@ public class AddActivity extends AppCompatActivity {
         myRecyclerADapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                String s = Home_Fragment.My_Pin.get(position);
                 Home_Fragment.My_Pin.remove(Home_Fragment.My_Pin.get(position));
-                Home_Fragment.Gengduo_Pin.add(Home_Fragment.My_Pin.get(position));
+                Home_Fragment.Gengduo_Pin.add(s);
+                Home_Fragment.fragments.remove(position);
                 myRecyclerADapter.notifyDataSetChanged();
                 myRecyclerADapter1.notifyDataSetChanged();
             }
@@ -63,9 +66,10 @@ public class AddActivity extends AppCompatActivity {
         myRecyclerADapter1.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
+                String s = Home_Fragment.Gengduo_Pin.get(position);
                 Home_Fragment.Gengduo_Pin.remove(Home_Fragment.Gengduo_Pin.get(position));
-                Home_Fragment.My_Pin.add(Home_Fragment.Gengduo_Pin.get(position));
+                Home_Fragment.My_Pin.add(s);
+                Home_Fragment.fragments.add(new ShujuFragment());
                 myRecyclerADapter.notifyDataSetChanged();
                 myRecyclerADapter1.notifyDataSetChanged();
             }
@@ -79,8 +83,8 @@ public class AddActivity extends AppCompatActivity {
         myRecyclerADapter.setOnItemDragListener(onItemDragListener);
 
 // 开启滑动删除
-        myRecyclerADapter.enableSwipeItem();
-        myRecyclerADapter.setOnItemSwipeListener(onItemSwipeListener);
+//        myRecyclerADapter.enableSwipeItem();
+//        myRecyclerADapter.setOnItemSwipeListener(onItemSwipeListener);
     }
 
     OnItemDragListener onItemDragListener = new OnItemDragListener() {
@@ -97,24 +101,24 @@ public class AddActivity extends AppCompatActivity {
         }
     };
 
-    OnItemSwipeListener onItemSwipeListener = new OnItemSwipeListener() {
-        @Override
-        public void onItemSwipeStart(RecyclerView.ViewHolder viewHolder, int pos) {
-        }
-
-        @Override
-        public void clearView(RecyclerView.ViewHolder viewHolder, int pos) {
-        }
-
-        @Override
-        public void onItemSwiped(RecyclerView.ViewHolder viewHolder, int pos) {
-        }
-
-        @Override
-        public void onItemSwipeMoving(Canvas canvas, RecyclerView.ViewHolder viewHolder, float dX, float dY, boolean isCurrentlyActive) {
-
-        }
-    };
+//    OnItemSwipeListener onItemSwipeListener = new OnItemSwipeListener() {
+//        @Override
+//        public void onItemSwipeStart(RecyclerView.ViewHolder viewHolder, int pos) {
+//        }
+//
+//        @Override
+//        public void clearView(RecyclerView.ViewHolder viewHolder, int pos) {
+//        }
+//
+//        @Override
+//        public void onItemSwiped(RecyclerView.ViewHolder viewHolder, int pos) {
+//        }
+//
+//        @Override
+//        public void onItemSwipeMoving(Canvas canvas, RecyclerView.ViewHolder viewHolder, float dX, float dY, boolean isCurrentlyActive) {
+//
+//        }
+//    };
 
 
 
