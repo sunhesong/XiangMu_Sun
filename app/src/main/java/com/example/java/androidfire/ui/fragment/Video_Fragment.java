@@ -5,14 +5,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.java.androidfire.R;
-import com.example.java.androidfire.ui.fragment.Video_ChildFragment.BlankFragment;
+import com.example.java.androidfire.ui.fragment.Video_ChildFragment.VideoChild_Fragment;
 
 import java.util.ArrayList;
 
@@ -37,8 +37,8 @@ public class Video_Fragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private TabLayout tab;
     private ViewPager vp;
-    private ArrayList<Fragment> fragments;
-    private ArrayList<String> list;
+    private static ArrayList<Fragment>  fragments = new ArrayList<>();
+    private static ArrayList<String> list = new ArrayList<>();
 
     public Video_Fragment() {
         // Required empty public constructor
@@ -70,7 +70,18 @@ public class Video_Fragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+static {
+    list.add("热点");
+    list.add("搞笑");
+    list.add("娱乐");
+    list.add("精品");
 
+
+    fragments.add(VideoChild_Fragment.newInstance("V9LG4E6VR",""));
+    fragments.add(VideoChild_Fragment.newInstance("00850FRB",""));
+    fragments.add(VideoChild_Fragment.newInstance("V9LG4B3A0",""));
+    fragments.add(VideoChild_Fragment.newInstance("00850FRB",""));
+}
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -78,19 +89,10 @@ public class Video_Fragment extends Fragment {
         View inflate = inflater.inflate(R.layout.fragment_video_, container, false);
         initView(inflate);
 
-        list = new ArrayList<>();
-        list.add("热点");
-        list.add("搞笑");
-        list.add("娱乐");
-        list.add("精品");
 
-        fragments = new ArrayList<>();
-        fragments.add(new BlankFragment());
-        fragments.add(new BlankFragment());
-        fragments.add(new BlankFragment());
-        fragments.add(new BlankFragment());
-tab.setupWithViewPager(vp);
-        vp.setAdapter(new FragmentStatePagerAdapter(getActivity().getSupportFragmentManager()) {
+
+        tab.setupWithViewPager(vp);
+        vp.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
                 return fragments.get(position);

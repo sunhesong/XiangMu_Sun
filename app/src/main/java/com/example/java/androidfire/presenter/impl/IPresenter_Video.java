@@ -1,5 +1,6 @@
 package com.example.java.androidfire.presenter.impl;
 
+import com.example.java.androidfire.data.bean.Video_Bean;
 import com.example.java.androidfire.data.model.Model;
 import com.example.java.androidfire.data.model.impl.ModelImpl;
 import com.example.java.androidfire.presenter.contract.IContract;
@@ -10,7 +11,7 @@ import com.example.java.androidfire.presenter.contract.IContract;
 
 public class IPresenter_Video implements IContract.IPresenter_Video {
     IContract.IView_Video iView_video;
-    private final ModelImpl model;
+    private  ModelImpl model;
 
     public IPresenter_Video(IContract.IView_Video iView_video) {
         this.iView_video = iView_video;
@@ -19,10 +20,10 @@ public class IPresenter_Video implements IContract.IPresenter_Video {
     }
 
     @Override
-    public void Video_Data() {
-        model.showData_Video(new Model.CallBackListener_video() {
+    public void Video_Data(String mParam1) {
+        model.showData_Video(mParam1,new Model.CallBackListener_video() {
             @Override
-            public void requestData(String t1348647909107) {
+            public void requestData(Video_Bean t1348647909107) {
                 iView_video.showData_Video(t1348647909107);
             }
         });

@@ -22,11 +22,18 @@ public class IPresenter implements IContract.IPresenter {
     }
 
     @Override
-    public void Data() {
-        model.showData(new Model.CallBackListener() {
+    public void Data(String mParam1, String mParam2, int i) {
+        iView.Loading();
+        model.showData(i,mParam1,mParam2,new Model.CallBackListener() {
+
             @Override
             public void requestData(List<TouTiao_Bean.T1348647909107Bean> t1348647909107) {
                 iView.showData(t1348647909107);
+            }
+
+            @Override
+            public void ErrorMessage(String t1348647909107) {
+                iView.Error(t1348647909107);
             }
         });
     }

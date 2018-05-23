@@ -1,6 +1,5 @@
 package com.example.java.androidfire.ui.activity;
 
-import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -12,11 +11,10 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.callback.ItemDragAndSwipeCallback;
 import com.chad.library.adapter.base.listener.OnItemDragListener;
-import com.chad.library.adapter.base.listener.OnItemSwipeListener;
 import com.example.java.androidfire.R;
 import com.example.java.androidfire.ui.adapter.MyRecyclerADapter;
 import com.example.java.androidfire.ui.fragment.Home_Fragment;
-import com.example.java.androidfire.ui.fragment.child_Fragment.ShujuFragment;
+import com.example.java.androidfire.ui.fragment.child_Fragment.ShuJuFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,8 +34,6 @@ public class AddActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
         ButterKnife.bind(this);
-
-
         toobar.setTitle("频道管理");
         setSupportActionBar(toobar);
         toobar.setNavigationIcon(R.drawable.ic_arrow_back);
@@ -53,10 +49,15 @@ public class AddActivity extends AppCompatActivity {
         myRecyclerADapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                String s = Home_Fragment.My_Pin.get(position);
+                if (Home_Fragment.My_Pin.get(position)[0].equals("头条") || Home_Fragment.My_Pin.get(position)[0].equals("体育") || Home_Fragment.My_Pin.get(position)[0].equals("军事") || Home_Fragment.My_Pin.get(position)[0].equals("科技") || Home_Fragment.My_Pin.get(position)[0].equals("财经")) {
+                    return;
+                }
+
+                String s = Home_Fragment.My_Pin.get(position)[0];
+                Home_Fragment.Gengduo_Pin.add(new String[]{s,Home_Fragment.My_Pin.get(position)[1]});
                 Home_Fragment.My_Pin.remove(Home_Fragment.My_Pin.get(position));
-                Home_Fragment.Gengduo_Pin.add(s);
                 Home_Fragment.fragments.remove(position);
+
                 myRecyclerADapter.notifyDataSetChanged();
                 myRecyclerADapter1.notifyDataSetChanged();
             }
@@ -66,10 +67,11 @@ public class AddActivity extends AppCompatActivity {
         myRecyclerADapter1.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                String s = Home_Fragment.Gengduo_Pin.get(position);
+                String s = Home_Fragment.Gengduo_Pin.get(position)[0];
+                Home_Fragment.My_Pin.add(new String[]{s,Home_Fragment.Gengduo_Pin.get(position)[1]});
+                Home_Fragment.fragments.add(ShuJuFragment.newInstance("list",Home_Fragment.Gengduo_Pin.get(position)[1]));
                 Home_Fragment.Gengduo_Pin.remove(Home_Fragment.Gengduo_Pin.get(position));
-                Home_Fragment.My_Pin.add(s);
-                Home_Fragment.fragments.add(new ShujuFragment());
+
                 myRecyclerADapter.notifyDataSetChanged();
                 myRecyclerADapter1.notifyDataSetChanged();
             }
@@ -119,7 +121,6 @@ public class AddActivity extends AppCompatActivity {
 //
 //        }
 //    };
-
 
 
 }

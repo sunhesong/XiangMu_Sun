@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
             public void onAnimationEnd(Animation animation) {
                 Intent intent = new Intent(MainActivity.this, ZhuActivity.class);
                 startActivity(intent);
-
             }
 
             @Override

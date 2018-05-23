@@ -24,6 +24,5 @@ public class RecyAdapter extends BaseQuickAdapter<TouTiao_Bean.T1348647909107Bea
     protected void convert(BaseViewHolder helper, TouTiao_Bean.T1348647909107Bean item) {
         helper.setText(R.id.tv,item.getTitle()).setText(R.id.tv2,item.getSource()).setText(R.id.time,item.getLmodify());
         Glide.with(mContext).load(item.getImgsrc()).crossFade().into((ImageView) helper.getView(R.id.img));
-
     }
 }

@@ -2,7 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relative"
     android:layout_width="match_parent"
+
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context="com.example.java.androidfire.ui.activity.ZhuActivity">
@@ -13,14 +15,15 @@
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"></FrameLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_above="@+id/tab_layout"
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/ftab"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="30dp"
-        android:id="@+id/fab"
-        android:src="@drawable/ic_arrow_upward" />
+        android:layout_above="@+id/tab_layout"
+        android:layout_width="wrap_content"
+        app:fab_colorNormal="#ff7403"
+        app:fab_icon="@drawable/ic_arrow_upward"
+        android:layout_height="wrap_content" />
+
 
     <com.flyco.tablayout.CommonTabLayout
         android:id="@+id/tab_layout"
@@ -29,6 +32,7 @@
         android:layout_alignParentBottom="true"
         android:background="#ffff"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
         <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
